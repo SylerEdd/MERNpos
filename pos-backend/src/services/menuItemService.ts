@@ -33,4 +33,16 @@ export class MenuItemService {
     const created = await repo.create(request);
     return toResponse(created);
   }
+
+  // async update(id: string, request: CreateMenuItemRequest): Promise<MenuItemResponse> {
+  //   if (!request.name || request.price <= 0 || !request.section) {
+  //     throw new Error("Invalid menu item data");
+  //   }
+  //   const updated = await repo.update(id, request);
+  //   return toResponse(updated);
+  // }
+
+  async delete(id: string): Promise<void> {
+    await repo.delete(id);
+  }
 }

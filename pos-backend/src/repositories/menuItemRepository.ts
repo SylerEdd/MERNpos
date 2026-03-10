@@ -1,6 +1,9 @@
 import { MenuItem, IMenuItem } from "../entities/MenuItem";
 import { CreateMenuItemRequest } from "../dto/menuItem/CreateMenuItemRequest";
 
+//create method will hash the password before saving to the database, we will use bcrypt for hashing
+//findByUsername and findByEmail are used for authentication and validation purposes
+
 export class MenuItemRepository {
   async findAll(): Promise<IMenuItem[]> {
     return MenuItem.find().exec();
