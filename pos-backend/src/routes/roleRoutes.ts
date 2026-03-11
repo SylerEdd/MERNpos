@@ -4,8 +4,8 @@ import { RoleController } from "../controller/RoleController";
 export const roleRouter = Router();
 const controller = new RoleController();
 
-roleRouter.get("/", (req, res) => controller.getAll(req, res));
-roleRouter.get("/:id", (req, res) => controller.getById(req, res));
-roleRouter.post("/", (req, res) => controller.create(req, res));
-roleRouter.put("/:id", (req, res) => controller.update(req, res));
-roleRouter.delete("/:id", (req, res) => controller.delete(req, res));
+roleRouter.get("/", controller.getAll.bind(controller));
+roleRouter.get("/:id", controller.getById.bind(controller));
+roleRouter.post("/", controller.create.bind(controller));
+roleRouter.put("/:id", controller.update.bind(controller));
+roleRouter.delete("/:id", controller.delete.bind(controller));

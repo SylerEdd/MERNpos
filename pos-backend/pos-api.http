@@ -37,3 +37,6 @@ Content-Type: application/json
 {
   "name": "MANAGER"
 }
+
+### Delete role by name
+DELETE http://localhost:3000/api/roles/{{roleId}}
