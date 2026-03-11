@@ -10,7 +10,7 @@ export class UserRepository {
     return User.find().exec();
   }
 
-  async findById(id: string): Promise<IUser | null> {
+  async findById(id: number): Promise<IUser | null> {
     return User.findById(id).exec();
   }
 
@@ -28,13 +28,13 @@ export class UserRepository {
   }
 
   async update(
-    id: string,
+    id: number,
     data: Partial<CreateUserRequest>,
   ): Promise<IUser | null> {
     return User.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: number): Promise<void> {
     await User.findByIdAndDelete(id).exec();
   }
 }

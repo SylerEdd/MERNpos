@@ -18,6 +18,18 @@ export class RoleController {
     res.json(role);
   }
 
+  async getByName(
+    req: Request<{ name: string }>,
+    res: Response,
+  ): Promise<void> {
+    const role = await service.getByName(req.params.name);
+    if (!role) {
+      res.status(404).json({ message: "Role not found" });
+      return;
+    }
+    res.json(role);
+  }
+
   async create(req: Request, res: Response): Promise<void> {
     try {
       const created = await service.create(req.body);

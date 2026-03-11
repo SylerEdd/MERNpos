@@ -24,6 +24,11 @@ export class RoleService {
     return role ? toResponse(role) : null;
   }
 
+  async getByName(name: string): Promise<RoleResponse | null> {
+    const role = await repo.findByName(name);
+    return role ? toResponse(role) : null;
+  }
+
   async create(request: CreateRoleRequest): Promise<RoleResponse> {
     if (!request.name) {
       throw new Error("Role name is required");

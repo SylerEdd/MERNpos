@@ -5,6 +5,7 @@ import { Schema, model, Document } from "mongoose";
 //User can have multiple roles, but for simplicity we will not implement the relationship in the database, we will handle it in the application logic
 
 export interface IUser extends Document {
+  id: number;
   createdAt: Date;
   fullName: string;
   username: string;
@@ -15,6 +16,7 @@ export interface IUser extends Document {
 
 const userSchema = new Schema<IUser>(
   {
+    id: { type: Number, required: true, unique: true },
     fullName: { type: String, required: true },
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
