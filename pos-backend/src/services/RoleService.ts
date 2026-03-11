@@ -7,7 +7,7 @@ const repo = new RoleRepository();
 
 function toResponse(entity: IRole): RoleResponse {
   return {
-    id: entity._id!.toString(),
+    id: entity.id,
     name: entity.name,
     createdAt: entity.createdAt!.toISOString(),
   };
@@ -19,7 +19,7 @@ export class RoleService {
     return roles.map(toResponse);
   }
 
-  async getById(id: string): Promise<RoleResponse | null> {
+  async getById(id: number): Promise<RoleResponse | null> {
     const role = await repo.findById(id);
     return role ? toResponse(role) : null;
   }
@@ -32,7 +32,7 @@ export class RoleService {
     return toResponse(created);
   }
 
-  async update(id: string, request: CreateRoleRequest): Promise<RoleResponse> {
+  async update(id: number, request: CreateRoleRequest): Promise<RoleResponse> {
     if (!request.name) {
       throw new Error("Role name is required");
     }
@@ -43,7 +43,7 @@ export class RoleService {
     return toResponse(updated);
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: number): Promise<void> {
     await repo.delete(id);
   }
 }

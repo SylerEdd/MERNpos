@@ -9,7 +9,7 @@ export class RoleController {
     res.json(roles);
   }
 
-  async getById(req: Request<{ id: string }>, res: Response): Promise<void> {
+  async getById(req: Request<{ id: number }>, res: Response): Promise<void> {
     const role = await service.getById(req.params.id);
     if (!role) {
       res.status(404).json({ message: "Role not found" });
@@ -27,7 +27,7 @@ export class RoleController {
     }
   }
 
-  async update(req: Request<{ id: string }>, res: Response): Promise<void> {
+  async update(req: Request<{ id: number }>, res: Response): Promise<void> {
     try {
       const updated = await service.update(req.params.id, req.body);
       res.json(updated);
@@ -40,7 +40,7 @@ export class RoleController {
     }
   }
 
-  async delete(req: Request<{ id: string }>, res: Response): Promise<void> {
+  async delete(req: Request<{ id: number }>, res: Response): Promise<void> {
     try {
       await service.delete(req.params.id);
       res.status(204).send();

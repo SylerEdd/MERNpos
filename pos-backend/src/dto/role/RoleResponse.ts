@@ -1,5 +1,5 @@
 export interface RoleResponse {
-  id: string;
+  id: number;
   name: string;
   createdAt: any;
 }
