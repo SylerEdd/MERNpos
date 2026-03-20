@@ -1,0 +1,25 @@
+### Create user
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "fullName": "Bruno",
+  "username": "brub",
+  "email": "brunomars@example.com",
+  "password": "password123123ad2zxcs",
+  "roles": [1]
+}
+
+### Get all users
+GET http://localhost:3000/api/users
+
+### Patch user
+PATCH http://localhost:3000/api/users/{2}
+Content-Type: application/json
+
+{
+  "roles": [1],
+}
+
+### Delete user
+DELETE http://localhost:3000/api/users/{2}

@@ -1,4 +1,5 @@
 import { Schema, model, Document } from "mongoose";
+import { IRole } from "./Role";
 
 //added createdAt field to all entities for better tracking and sorting
 // passwordHash is used instead of password for security reasons, we will hash the password before saving to the database
@@ -11,7 +12,7 @@ export interface IUser extends Document {
   username: string;
   email: string;
   passwordHash: string;
-  roles: string[]; //array of role ids
+  roles: IRole[]; // we will store role ids in the user document, but we will populate the role names when fetching users
 }
 
 const userSchema = new Schema<IUser>(
@@ -22,6 +23,7 @@ const userSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     passwordHash: { type: String, required: true },
     roles: [{ type: Schema.Types.ObjectId, ref: "Role" }],
+    // roles: [{ type: Number, ref: "Role" }],
   },
   { timestamps: true },
 );

@@ -3,5 +3,6 @@ export interface UserResponse {
   fullName: string;
   username: string;
   email: string;
+  roles: string[];
   createdAt: any;
 }
