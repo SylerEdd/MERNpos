@@ -1,0 +1,22 @@
+### Create a new table
+POST http://localhost:3000/api/tabs
+Content-Type: application/json
+
+{
+  "tableNumber": "11A",
+  "tableStatus": "open"
+  
+}
+
+### Get all tables
+GET http://localhost:3000/api/tabs
+Content-Type: application/json
+
+### Get a specific table
+GET http://localhost:3000/api/tabs/0 
+
+### Update a table
+PUT http://localhost:3000/api/tabs/1 
+
+### Delete a table
+DELETE http://localhost:3000/api/tabs/0

@@ -5,7 +5,7 @@ export function registerRoutes(app: Application): void {
   app.use("/api/menu-items", require("./menuItemRoutes").menuItemRouter);
   app.use("/api/roles", require("./roleRoutes").roleRouter);
   app.use("/api/users", require("./userRoutes").userRouter);
-
+  app.use("/api/tabs", require("./tabRoutes").tabRouter);
   // Health check
   app.get("/", (req, res) => {
     res.json({
