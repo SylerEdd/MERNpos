@@ -5,6 +5,7 @@ export interface ITab extends Document {
   id: number;
   tableNumber: string;
   tableStatus: TableStatus;
+  createdAt: Date;
 }
 
 const tabSchema = new Schema<ITab>(
