@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 
-// const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/pos_db";
-const MONGO_URI =
-  "mongodb+srv://admin:admin123@mernpos.yaqntdc.mongodb.net/?appName=MERNpos";
+const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/pos_db";
 
 // Function to connect to MongoDB
 export async function connectToDatabase(): Promise<void> {
