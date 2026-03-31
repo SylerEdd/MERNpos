@@ -3,10 +3,9 @@ POST http://localhost:3000/api/menu-items
 Content-Type: application/json
 
 {
-  "name": "Espresso Martini",
-  "price": 11.5,
-  "section": "COCKTAIL",
-  "available": true
+  "name": "Pornstar Martini",
+  "price": 13.5,
+  "section": "COCKTAIL"
 }
 
 ### Get all menu items

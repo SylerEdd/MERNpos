@@ -7,7 +7,7 @@ const repo = new MenuItemRepository();
 
 function toResponse(entity: IMenuItem): MenuItemResponse {
   return {
-    id: entity._id!.toString(),
+    id: entity.id,
     name: entity.name,
     price: entity.price,
     section: entity.section,
@@ -21,7 +21,7 @@ export class MenuItemService {
     return items.map(toResponse);
   }
 
-  async getById(id: string): Promise<MenuItemResponse | null> {
+  async getById(id: number): Promise<MenuItemResponse | null> {
     const item = await repo.findById(id);
     return item ? toResponse(item) : null;
   }
@@ -42,7 +42,7 @@ export class MenuItemService {
   //   return toResponse(updated);
   // }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: number): Promise<void> {
     await repo.delete(id);
   }
 }

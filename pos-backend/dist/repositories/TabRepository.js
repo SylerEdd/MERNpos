@@ -13,10 +13,10 @@ class TabRepository {
         return Tab_1.Tab.find().exec();
     }
     async findById(id) {
-        return Tab_1.Tab.findOne({ id }).exec();
+        return Tab_1.Tab.findById(id).exec();
     }
     async update(id, data) {
-        return Tab_1.Tab.findOneAndUpdate({ id }, data, { new: true }).exec();
+        return Tab_1.Tab.findByIdAndUpdate(id, data, { new: true }).exec();
     }
     async delete(id) {
         await Tab_1.Tab.findOneAndDelete({ id }).exec();

@@ -9,7 +9,12 @@ class MenuItemController {
         res.json(items);
     }
     async getById(req, res) {
-        const item = await service.getById(req.params.id);
+        const idNum = Number(req.params.id);
+        if (Number.isNaN(idNum)) {
+            res.status(400).json({ message: "Invalid id" });
+            return;
+        }
+        const item = await service.getById(idNum);
         if (!item) {
             res.status(404).json({ message: "Menu item not found" });
             return;
