@@ -1,0 +1,49 @@
+### Create Order
+POST http://localhost:3000/api/orders
+Content-Type: application/json
+
+{
+  "tabId": 1,
+  "userId": 1
+}
+
+### Get all orders
+GET http://localhost:3000/api/orders
+
+### Update order
+PUT http://localhost:3000/api/orders/1
+Content-Type: application/json
+
+{
+  "tabId": 2,
+  "userId": 2
+}
+
+### Get order by id
+GET http://localhost:3000/api/orders/1
+
+### Add item to order
+POST http://localhost:3000/api/orders/1/items
+Content-Type: application/json
+
+{
+  "menuItemId": 1,
+  "quantity": 1
+}
+
+### Get all items in order
+GET http://localhost:3000/api/orders/1/items
+
+### Update item in order
+PUT http://localhost:3000/api/orders/1/items/1
+Content-Type: application/json
+
+{
+  "menuItemId": 2,
+  "quantity": 3
+}
+
+
+### Delete role by id
+DELETE http://localhost:3000/api/orders/1
+

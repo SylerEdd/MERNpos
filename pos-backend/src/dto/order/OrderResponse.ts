@@ -3,7 +3,7 @@ import { OrderItemResponse } from "../orderItem/OrderItemResponse";
 
 export interface OrderResponse {
   id: number;
-  tableId: number;
+  tabId: number;
   userId: number;
   totalAmount: number;
   status: OrderStatus;

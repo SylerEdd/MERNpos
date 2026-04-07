@@ -1,4 +1,4 @@
 export interface CreateOrderRequest {
-  tableId: number;
+  tabId: number;
   userId: number;
 }

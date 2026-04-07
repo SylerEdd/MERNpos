@@ -1,12 +1,14 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { OrderStatus } from "../enums/OrderStatus";
+import { OrderItemResponse } from "../dto/orderItem/OrderItemResponse";
 
 export interface IOrder extends Document {
   id: number;
-  tableId: number;
+  tabId: number;
   userId: number;
   totalAmount: number;
   status: OrderStatus;
+  orderItems: OrderItemResponse[];
   openedAt: any;
   closedAt: any | null;
   createdAt: any;
@@ -15,7 +17,7 @@ export interface IOrder extends Document {
 const orderSchema = new Schema<IOrder>(
   {
     id: { type: Number, required: true, unique: true },
-    tableId: { type: Number, required: true },
+    tabId: { type: Number, required: true },
     userId: { type: Number, required: true },
     totalAmount: { type: Number, default: 0 },
     status: {

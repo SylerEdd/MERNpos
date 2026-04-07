@@ -15,14 +15,14 @@ export class TabRepository {
   }
 
   async findById(id: number): Promise<ITab | null> {
-    return Tab.findById(id).exec();
+    return Tab.findOne({ id }).exec();
   }
 
   async update(
     id: number,
     data: Partial<CreateTabRequest>,
   ): Promise<ITab | null> {
-    return Tab.findByIdAndUpdate(id, data, { new: true }).exec();
+    return Tab.findOneAndUpdate({ id }, data, { new: true }).exec();
   }
 
   async delete(id: number): Promise<void> {
