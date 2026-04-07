@@ -1,0 +1,23 @@
+### Login as Manager
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "manager1",
+  "password": "password123"
+}
+
+### Who am I (get current authenticated user info)
+GET http://localhost:3000/api/auth/me
+
+### Try to close order as Waiter (will get 403)
+POST http://localhost:3000/api/orders/1/close
+Content-Type: application/json
+
+{
+  "status": "CLOSED"
+}
+
+### Logout
+POST http://localhost:3000/api/auth/logout
+Content-Type: application/json

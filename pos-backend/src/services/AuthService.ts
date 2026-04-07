@@ -1,0 +1,55 @@
+import bcrypt from "bcrypt";
+import { UserRepository } from "../repositories/UserRepository";
+import { LoginRequest } from "../dto/auth/LoginRequest";
+import { LoginResponse } from "../dto/auth/LoginResponse";
+
+const userRepository = new UserRepository();
+
+export class AuthService {
+  async login(request: LoginRequest): Promise<{
+    response: LoginResponse;
+    userId: number;
+    username: string;
+    fullName: string;
+    roles: string[];
+  }> {
+    if (!request.username || !request.password) {
+      throw new Error("Username and password are required");
+    }
+
+    const user = await userRepository.findByUsername(request.username);
+    if (!user) {
+      throw new Error("Invalid username or password");
+    }
+
+    const passwordMatch = await bcrypt.compare(
+      request.password,
+      user.passwordHash,
+    );
+    if (!passwordMatch) {
+      throw new Error("Invalid username or password");
+    }
+
+    const roleNames = Array.isArray(user.roles)
+      ? user.roles.map((role: any) =>
+          typeof role === "object" ? role.name : String(role),
+        )
+      : [];
+
+    return {
+      response: {
+        message: "Login successful",
+        user: {
+          id: user.id,
+          username: user.username,
+          fullName: user.fullName,
+          roles: roleNames,
+        },
+      },
+      userId: user.id,
+      username: user.username,
+      fullName: user.fullName,
+      roles: roleNames,
+    };
+  }
+}
