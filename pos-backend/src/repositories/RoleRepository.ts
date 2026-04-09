@@ -28,7 +28,9 @@ export class RoleRepository {
     id: number,
     data: Partial<CreateRoleRequest>,
   ): Promise<IRole | null> {
-    return Role.findOneAndUpdate({ id }, data, { new: true }).exec();
+    return Role.findOneAndUpdate({ id }, data, {
+      returnDocument: "after",
+    }).exec();
   }
 
   async delete(id: number): Promise<void> {

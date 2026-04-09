@@ -1,5 +1,6 @@
 import { OrderStatus } from "../../enums/OrderStatus";
 import { OrderItemResponse } from "../orderItem/OrderItemResponse";
+import { PaymentResponse } from "../payment/PaymentResponse";
 
 export interface OrderResponse {
   id: number;
@@ -11,4 +12,7 @@ export interface OrderResponse {
   openedAt: string;
   closedAt: string | null;
   createdAt: string;
+  payments?: PaymentResponse[];
+  totalPaid?: number;
+  amountDue?: number;
 }

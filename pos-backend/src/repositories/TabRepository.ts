@@ -22,7 +22,9 @@ export class TabRepository {
     id: number,
     data: Partial<CreateTabRequest>,
   ): Promise<ITab | null> {
-    return Tab.findOneAndUpdate({ id }, data, { new: true }).exec();
+    return Tab.findOneAndUpdate({ id }, data, {
+      returnDocument: "after",
+    }).exec();
   }
 
   async delete(id: number): Promise<void> {

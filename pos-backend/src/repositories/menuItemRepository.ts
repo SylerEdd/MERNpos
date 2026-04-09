@@ -15,7 +15,8 @@ export class MenuItemRepository {
 
   async create(data: CreateMenuItemRequest): Promise<IMenuItem> {
     const lastItem = await MenuItem.findOne().sort({ id: -1 }).lean().exec();
-    const nextId = lastItem && typeof lastItem.id === "number" ? lastItem.id + 1 : 1;
+    const nextId =
+      lastItem && typeof lastItem.id === "number" ? lastItem.id + 1 : 1;
 
     const item = new MenuItem({ ...data, id: nextId });
     return item.save();
@@ -25,7 +26,9 @@ export class MenuItemRepository {
     id: number,
     data: Partial<CreateMenuItemRequest>,
   ): Promise<IMenuItem | null> {
-    return MenuItem.findOneAndUpdate({ id }, data, { new: true }).exec();
+    return MenuItem.findOneAndUpdate({ id }, data, {
+      returnDocument: "after",
+    }).exec();
   }
 
   async delete(id: number): Promise<void> {

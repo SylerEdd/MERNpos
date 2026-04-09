@@ -96,7 +96,7 @@ export class UserRepository {
     }
 
     return User.findOneAndUpdate({ id }, updateData, {
-      new: true,
+      returnDocument: "after",
     })
       .populate("roles")
       .exec();

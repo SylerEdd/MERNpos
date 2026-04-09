@@ -10,6 +10,10 @@ import { IOrder } from "../entities/Order";
 import { IOrderItem } from "../entities/OrderItem";
 import { OrderStatus } from "../enums/OrderStatus";
 import { TableStatus } from "../enums/TableStatus";
+import { PaymentRepository } from "../repositories/PaymentRepository";
+import { CreatePaymentRequest } from "../dto/payment/CreatePaymentRequest";
+import { PaymentResponse } from "../dto/payment/PaymentResponse";
+import { IPayment } from "../entities/Payment";
 
 function toItemResponse(
   entity: IOrderItem,
@@ -48,6 +52,17 @@ function toOrderResponse(
   };
 }
 
+function toPaymentResponse(entity: IPayment): PaymentResponse {
+  return {
+    id: entity.id,
+    orderId: entity.orderId,
+    amount: entity.amount,
+    paymentMethod: entity.paymentMethod,
+    processedByUserId: entity.processedByUserId,
+    createdAt: entity.createdAt.toISOString(),
+  };
+}
+const paymentRepository = new PaymentRepository();
 const orderRepository = new OrderRepository();
 const orderItemRepository = new OrderItemRepository();
 const menuItemRepository = new MenuItemRepository();
@@ -57,14 +72,26 @@ export class OrderService {
   private async buildResponse(order: IOrder): Promise<OrderResponse> {
     const items = await orderItemRepository.findByOrderId(order.id);
     const allMenuItems = await menuItemRepository.findAll();
+    const payments = await paymentRepository.findByOrderId(order.id);
 
     const menuMap = new Map(allMenuItems.map((m) => [m.id, m.name]));
+
+    const paymentResponses = payments.map(toPaymentResponse);
 
     const itemResponses = items.map((item) =>
       toItemResponse(item, menuMap.get(item.menuItemId) ?? "Unknown Item"),
     );
 
-    return toOrderResponse(order, itemResponses);
+    const totalPaid = payments.reduce((sum, p) => sum + p.amount, 0);
+    const amountDue = order.totalAmount - totalPaid;
+
+    const base = toOrderResponse(order, itemResponses);
+    return {
+      ...base,
+      payments: paymentResponses,
+      totalPaid,
+      amountDue,
+    };
   }
 
   async getAll(): Promise<OrderResponse[]> {
@@ -175,6 +202,40 @@ export class OrderService {
         tableStatus: TableStatus.FREE,
       });
     }
+    return this.buildResponse(updated!);
+  }
+
+  async recordPayment(
+    orderId: number,
+    request: CreatePaymentRequest,
+    processedByUserId: number,
+  ): Promise<OrderResponse> {
+    const order = await orderRepository.findById(orderId);
+    if (!order) {
+      throw new Error("Order not found");
+    }
+    if (order.status !== OrderStatus.OPEN) {
+      throw new Error("Cannot record payment for a closed order");
+    }
+
+    //Calculate total paid so far
+    const existingPayments = await paymentRepository.findByOrderId(orderId);
+    const alreadyPaid = existingPayments.reduce((sum, p) => sum + p.amount, 0);
+
+    const newTotalPaid = alreadyPaid + request.amount;
+    if (newTotalPaid > order.totalAmount) {
+      throw new Error("Payment exceeds total amount due");
+    }
+
+    // Record the new payment
+    await paymentRepository.create(orderId, processedByUserId, request);
+
+    // If fully paid, close the order
+    if (newTotalPaid === order.totalAmount) {
+      await this.updateStatus(orderId, OrderStatus.CLOSED);
+    }
+
+    const updated = await orderRepository.findById(orderId);
     return this.buildResponse(updated!);
   }
 

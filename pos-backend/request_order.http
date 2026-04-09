@@ -20,15 +20,15 @@ Content-Type: application/json
 }
 
 ### Get order by id
-GET http://localhost:3000/api/orders/1
+GET http://localhost:3000/api/orders/3
 
 ### Add item to order
-POST http://localhost:3000/api/orders/1/items
+POST http://localhost:3000/api/orders/3/items
 Content-Type: application/json
 
 {
   "menuItemId": 1,
-  "quantity": 1
+  "quantity": 5
 }
 
 ### Get all items in order
@@ -47,3 +47,20 @@ Content-Type: application/json
 ### Delete role by id
 DELETE http://localhost:3000/api/orders/1
 
+### Pay order manager logged in
+POST http://localhost:3000/api/orders/3/pay
+Content-Type: application/json
+
+{
+  "amount": 10.50,
+  "paymentMethod": "CASH"
+}
+
+### Pay order as waiter logged in
+POST http://localhost:3000/api/orders/3/pay
+Content-Type: application/json
+
+{
+  "amount": 10.50,
+  "paymentMethod": "CARD"
+}

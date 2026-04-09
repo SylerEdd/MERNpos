@@ -34,7 +34,9 @@ export class OrderRepository {
       update.closedAt = new Date();
     }
 
-    return Order.findOneAndUpdate({ id }, update, { new: true }).exec();
+    return Order.findOneAndUpdate({ id }, update, {
+      returnDocument: "after",
+    }).exec();
   }
 
   async updateTotal(id: number, totalAmount: number): Promise<void> {

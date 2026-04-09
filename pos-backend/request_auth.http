@@ -3,9 +3,20 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "username": "manager1",
+  "username": "daboss",
   "password": "password123"
 }
+
+### Login as Waiter
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "waiter",
+  "password": "waiterjoe123"
+}
+
+
 
 ### Who am I (get current authenticated user info)
 GET http://localhost:3000/api/auth/me
