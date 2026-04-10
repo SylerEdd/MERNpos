@@ -5,6 +5,7 @@ import { IMenuItem } from "../entities/MenuItem";
 
 const repo = new MenuItemRepository();
 
+// maps the menu item for response
 function toResponse(entity: IMenuItem): MenuItemResponse {
   return {
     id: entity.id,
@@ -16,16 +17,18 @@ function toResponse(entity: IMenuItem): MenuItemResponse {
 }
 
 export class MenuItemService {
+  // returns all menu items
   async getAll(): Promise<MenuItemResponse[]> {
     const items = await repo.findAll();
     return items.map(toResponse);
   }
-
+  // returns menu item by id
   async getById(id: number): Promise<MenuItemResponse | null> {
     const item = await repo.findById(id);
     return item ? toResponse(item) : null;
   }
 
+  // creates menu item
   async create(request: CreateMenuItemRequest): Promise<MenuItemResponse> {
     if (!request.name || request.price <= 0) {
       throw new Error("Invalid menu item data");
@@ -34,14 +37,7 @@ export class MenuItemService {
     return toResponse(created);
   }
 
-  // async update(id: string, request: CreateMenuItemRequest): Promise<MenuItemResponse> {
-  //   if (!request.name || request.price <= 0 || !request.section) {
-  //     throw new Error("Invalid menu item data");
-  //   }
-  //   const updated = await repo.update(id, request);
-  //   return toResponse(updated);
-  // }
-
+  // delets an menu item
   async delete(id: number): Promise<void> {
     await repo.delete(id);
   }

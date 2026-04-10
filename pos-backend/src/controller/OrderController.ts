@@ -4,11 +4,13 @@ import { OrderService } from "../services/OrderService";
 const service = new OrderService();
 
 export class OrderController {
+  //GET /api/orders
   async getAll(req: Request, res: Response): Promise<void> {
     const orders = await service.getAll();
     res.json(orders);
   }
 
+  // GET /api/orders/Lid
   async getById(req: Request<{ id: string }>, res: Response): Promise<void> {
     const id = Number(req.params.id);
 
@@ -25,6 +27,7 @@ export class OrderController {
 
     res.json(order);
   }
+  // POST /api/orders
   async create(req: Request, res: Response): Promise<void> {
     try {
       const created = await service.create(req.body);
@@ -34,6 +37,7 @@ export class OrderController {
     }
   }
 
+  // POST /api/orders/:id/items
   async addItem(req: Request<{ id: string }>, res: Response): Promise<void> {
     const id = Number(req.params.id);
 
@@ -56,7 +60,7 @@ export class OrderController {
       }
     }
   }
-
+  // DELETE /api/order/:id/items
   async removeItem(
     req: Request<{ id: string; itemId: string }>,
     res: Response,
@@ -84,6 +88,7 @@ export class OrderController {
     }
   }
 
+  // PUT /api/orders/:id
   async updateStatus(
     req: Request<{ id: string }>,
     res: Response,

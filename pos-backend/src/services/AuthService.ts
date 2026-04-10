@@ -5,6 +5,7 @@ import { LoginResponse } from "../dto/auth/LoginResponse";
 
 const userRepository = new UserRepository();
 
+//Handles the authentication logic
 export class AuthService {
   async login(request: LoginRequest): Promise<{
     response: LoginResponse;
@@ -17,11 +18,13 @@ export class AuthService {
       throw new Error("Username and password are required");
     }
 
+    // check if the user exists
     const user = await userRepository.findByUsername(request.username);
     if (!user) {
       throw new Error("Invalid username or password");
     }
 
+    //compare the submitted password withe the bcrypted hash password
     const passwordMatch = await bcrypt.compare(
       request.password,
       user.passwordHash,
@@ -30,6 +33,7 @@ export class AuthService {
       throw new Error("Invalid username or password");
     }
 
+    // getting the roles to decide what user can do with the roles.
     const roleNames = Array.isArray(user.roles)
       ? user.roles.map((role: any) =>
           typeof role === "object" ? role.name : String(role),
@@ -46,6 +50,7 @@ export class AuthService {
           roles: roleNames,
         },
       },
+      // these are stored in the session by the controller
       userId: user.id,
       username: user.username,
       fullName: user.fullName,

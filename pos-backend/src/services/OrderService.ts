@@ -15,6 +15,7 @@ import { CreatePaymentRequest } from "../dto/payment/CreatePaymentRequest";
 import { PaymentResponse } from "../dto/payment/PaymentResponse";
 import { IPayment } from "../entities/Payment";
 
+// maps the orderItem entity and menu item name to response
 function toItemResponse(
   entity: IOrderItem,
   menuItemName: string,
@@ -31,6 +32,7 @@ function toItemResponse(
   };
 }
 
+// maps the Order entity and orderItem response to response
 function toOrderResponse(
   entity: IOrder,
   items: OrderItemResponse[],
@@ -52,6 +54,7 @@ function toOrderResponse(
   };
 }
 
+// maps the payment entity to response
 function toPaymentResponse(entity: IPayment): PaymentResponse {
   return {
     id: entity.id,
@@ -62,6 +65,7 @@ function toPaymentResponse(entity: IPayment): PaymentResponse {
     createdAt: entity.createdAt.toISOString(),
   };
 }
+
 const paymentRepository = new PaymentRepository();
 const orderRepository = new OrderRepository();
 const orderItemRepository = new OrderItemRepository();
@@ -69,11 +73,13 @@ const menuItemRepository = new MenuItemRepository();
 const tabRepository = new TabRepository();
 
 export class OrderService {
+  // constructing DTO here
   private async buildResponse(order: IOrder): Promise<OrderResponse> {
     const items = await orderItemRepository.findByOrderId(order.id);
     const allMenuItems = await menuItemRepository.findAll();
     const payments = await paymentRepository.findByOrderId(order.id);
 
+    // build a map for name look ups
     const menuMap = new Map(allMenuItems.map((m) => [m.id, m.name]));
 
     const paymentResponses = payments.map(toPaymentResponse);
@@ -94,16 +100,19 @@ export class OrderService {
     };
   }
 
+  // returns all orders
   async getAll(): Promise<OrderResponse[]> {
     const orders = await orderRepository.findAll();
     return Promise.all(orders.map((order) => this.buildResponse(order)));
   }
 
+  // returns one order by id
   async getById(id: number): Promise<OrderResponse | null> {
     const order = await orderRepository.findById(id);
     return order ? this.buildResponse(order) : null;
   }
 
+  // creates new order on a tab
   async create(request: CreateOrderRequest): Promise<OrderResponse> {
     if (!request.tabId || !request.userId) {
       throw new Error("tabId and userId are required");
@@ -123,12 +132,14 @@ export class OrderService {
 
     const created = await orderRepository.create(request);
 
+    // changes the tab status to OCCUPIED
     await tabRepository.update(request.tabId, {
       tableStatus: TableStatus.OCCUPIED,
     });
     return this.buildResponse(created);
   }
 
+  // adds items to the OPEN order
   async addItem(
     orderId: number,
     request: AddOrderItemRequest,
@@ -162,6 +173,7 @@ export class OrderService {
     return this.buildResponse(updated!);
   }
 
+  // removes an item from the opoen order
   async removeItem(orderId: number, itemId: number): Promise<OrderResponse> {
     const order = await orderRepository.findById(orderId);
     if (!order) {
@@ -185,6 +197,7 @@ export class OrderService {
     return this.buildResponse(updated!);
   }
 
+  // changes the status of the open order
   async updateStatus(id: number, status: OrderStatus): Promise<OrderResponse> {
     const order = await orderRepository.findById(id);
     if (!order) {
@@ -205,6 +218,7 @@ export class OrderService {
     return this.buildResponse(updated!);
   }
 
+  // records a payment on an open order
   async recordPayment(
     orderId: number,
     request: CreatePaymentRequest,

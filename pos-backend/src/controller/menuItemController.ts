@@ -4,11 +4,13 @@ import { MenuItemService } from "../services/menuItemService";
 const service = new MenuItemService();
 
 export class MenuItemController {
+  //GET /api/menu-item
   async getAll(req: Request, res: Response): Promise<void> {
     const items = await service.getAll();
     res.json(items);
   }
 
+  //GET /api/menu-item/:id
   async getById(req: Request<{ id: string }>, res: Response): Promise<void> {
     const idNum = Number(req.params.id);
     if (Number.isNaN(idNum)) {
@@ -22,7 +24,7 @@ export class MenuItemController {
     }
     res.json(item);
   }
-
+  // POST /api/menu-item
   async create(req: Request, res: Response): Promise<void> {
     try {
       const created = await service.create(req.body);

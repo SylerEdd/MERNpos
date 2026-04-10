@@ -2,17 +2,21 @@ import { OrderItem, IOrderItem } from "../entities/OrderItem";
 import { AddOrderItemRequest } from "../dto/orderItem/AddOrderItemRequest";
 
 export class OrderItemRepository {
+  // request from the database and return all the items that are in the order
   async findByOrderId(orderId: number): Promise<IOrderItem[]> {
     return OrderItem.find({ orderId }).sort({ id: 1 }).exec();
   }
 
+  // request from the database and return orderitem with that id
   async findById(id: number): Promise<IOrderItem | null> {
     return OrderItem.findOne({ id }).exec();
   }
 
+  // creating orderitem
   async create(
     data: AddOrderItemRequest & { orderId: number; unitPrice: number },
   ): Promise<IOrderItem> {
+    // creating sequential id
     const lastItem = await OrderItem.findOne().sort({ id: -1 }).lean().exec();
     const nextId =
       lastItem && typeof lastItem.id === "number" ? lastItem.id + 1 : 1;
@@ -30,6 +34,7 @@ export class OrderItemRepository {
     return item.save();
   }
 
+  //deleting the orderitem
   async delete(id: number): Promise<void> {
     await OrderItem.findOneAndDelete({ id });
   }

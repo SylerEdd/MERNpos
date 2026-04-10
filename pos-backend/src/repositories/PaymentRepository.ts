@@ -6,11 +6,13 @@ export class PaymentRepository {
     return Payment.find({ orderId }).sort({ createdAt: 1 }).exec();
   }
 
+  // create new payment into the databse
   async create(
     orderId: number,
     processedByUserId: number,
     data: CreatePaymentRequest,
   ): Promise<IPayment> {
+    //creating sequential id
     const last = await Payment.findOne().sort({ id: -1 }).exec();
     const nextId = last ? last.id + 1 : 1;
 

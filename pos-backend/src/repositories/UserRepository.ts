@@ -9,12 +9,15 @@ import { Role } from "../entities/Role";
 //create method will hash the password before saving to the database, we will use bcrypt for hashing
 
 export class UserRepository {
+  // takes role IDs from the request and convert them to number and uses those to
+  // request the role collection. and returns the mongo objectids
   private async toRoleObjectIds(
     roleIds: Array<number | string>,
   ): Promise<any[]> {
     if (!Array.isArray(roleIds)) {
       return [];
     }
+    // whatever the user sent, converts it to numbers only
     const normalizedIds = roleIds
       .map((r) => {
         if (typeof r === "number") return r;
@@ -37,26 +40,33 @@ export class UserRepository {
     return roles.map((role) => role._id);
   }
 
+  // request form the database and return all users
   async findAll(): Promise<IUser[]> {
     return User.find().populate("roles").exec();
   }
 
+  //request from the database and return a user with that id
   async findById(id: number): Promise<IUser | null> {
     return User.findOne({ id }).populate("roles").exec();
   }
 
+  // request from the database and return a user with that specific username
   async findByUsername(username: string): Promise<IUser | null> {
     return User.findOne({ username }).populate("roles").exec();
   }
 
+  // request from the database and return a user with that email
   async findByEmail(email: string): Promise<IUser | null> {
     return User.findOne({ email }).exec();
   }
 
+  // insert a new user to the database
   async create(data: CreateUserRequest): Promise<IUser> {
+    //creating sequential di
     const lastUser = await User.findOne().sort({ id: -1 }).exec();
     const nextId = lastUser ? lastUser.id + 1 : 1;
 
+    // hashing the password
     const passwordHash = await bcrypt.hash(data.password, 10);
 
     const roleObjectIds = await this.toRoleObjectIds(data.roles || []);
@@ -73,7 +83,7 @@ export class UserRepository {
     return user.save();
   }
 
-  // we need async patch now because we want to update only some fields of the user, not all fields like in update method
+  // update only the fields that are requested.
   async patch(
     id: number,
     data: Partial<CreateUserRequest>,
@@ -102,6 +112,7 @@ export class UserRepository {
       .exec();
   }
 
+  // delete user
   async delete(id: number): Promise<void> {
     await User.findOneAndDelete({ id }).exec();
   }

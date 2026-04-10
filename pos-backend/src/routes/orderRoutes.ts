@@ -15,6 +15,7 @@ orderRouter.get("/:id", authenticate, (req: Request<{ id: string }>, res) =>
 
 orderRouter.post("/", authenticate, (req, res) => controller.create(req, res));
 
+// POST /orders/:id/items
 orderRouter.post(
   "/:id/items",
   authenticate,

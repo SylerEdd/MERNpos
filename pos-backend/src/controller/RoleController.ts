@@ -4,11 +4,13 @@ import { RoleService } from "../services/RoleService";
 const service = new RoleService();
 
 export class RoleController {
+  // request from the database and return all roles
   async getAll(req: Request, res: Response): Promise<void> {
     const roles = await service.getAll();
     res.json(roles);
   }
 
+  // request from the database and return one role with that ID
   async getById(req: Request<{ id: number }>, res: Response): Promise<void> {
     const role = await service.getById(req.params.id);
     if (!role) {
@@ -18,6 +20,7 @@ export class RoleController {
     res.json(role);
   }
 
+  // request from the database and return one role with that name
   async getByName(
     req: Request<{ name: string }>,
     res: Response,
@@ -30,6 +33,7 @@ export class RoleController {
     res.json(role);
   }
 
+  // create new role
   async create(req: Request, res: Response): Promise<void> {
     try {
       const created = await service.create(req.body);
@@ -39,6 +43,7 @@ export class RoleController {
     }
   }
 
+  // update the role
   async update(req: Request<{ id: number }>, res: Response): Promise<void> {
     try {
       const updated = await service.update(req.params.id, req.body);
@@ -52,6 +57,7 @@ export class RoleController {
     }
   }
 
+  // delete role
   async delete(req: Request<{ id: number }>, res: Response): Promise<void> {
     try {
       await service.delete(req.params.id);

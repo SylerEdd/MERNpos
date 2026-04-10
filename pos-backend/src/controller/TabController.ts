@@ -4,11 +4,13 @@ import { TabService } from "../services/TabService";
 const service = new TabService();
 
 export class TabController {
+  // request from the database and return all tables
   async getAll(req: Request, res: Response): Promise<void> {
     const tabs = await service.getAll();
     res.json(tabs);
   }
 
+  // request from the dtabase and return a table with that ID
   async getById(req: Request<{ id: string }>, res: Response): Promise<void> {
     const id = Number(req.params.id);
     if (!Number.isFinite(id)) {
@@ -22,6 +24,7 @@ export class TabController {
     }
     res.json(tab);
   }
+  // create new table
   async create(req: Request, res: Response): Promise<void> {
     try {
       const created = await service.create(req.body);
@@ -30,6 +33,7 @@ export class TabController {
       res.status(400).json({ message: err.message ?? "Invalid data" });
     }
   }
+  //update the table
   async update(req: Request<{ id: string }>, res: Response): Promise<void> {
     const id = Number(req.params.id);
     if (!Number.isFinite(id)) {
@@ -47,6 +51,7 @@ export class TabController {
       }
     }
   }
+  // delete table
   async delete(req: Request<{ id: string }>, res: Response): Promise<void> {
     const id = Number(req.params.id);
     if (!Number.isFinite(id)) {

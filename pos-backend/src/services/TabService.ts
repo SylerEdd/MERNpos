@@ -6,6 +6,7 @@ import { TableStatus } from "../enums/TableStatus";
 
 const repo = new TabRepository();
 
+// maps the tab to response
 function toResponse(entity: ITab): TabResponse {
   return {
     id: entity.id,
@@ -16,16 +17,19 @@ function toResponse(entity: ITab): TabResponse {
 }
 
 export class TabService {
+  // returns all tables
   async getAll(): Promise<TabResponse[]> {
     const tabs = await repo.findAll();
     return tabs.map(toResponse);
   }
 
+  //returns a table by id
   async getById(id: number): Promise<TabResponse | null> {
     const tab = await repo.findById(id);
     return tab ? toResponse(tab) : null;
   }
 
+  // creates a table
   async create(request: CreateTabRequest): Promise<TabResponse> {
     if (!request.tableNumber) {
       throw new Error("Table number is required");
@@ -34,6 +38,7 @@ export class TabService {
     return toResponse(created);
   }
 
+  // updates a table
   async update(id: number, request: CreateTabRequest): Promise<TabResponse> {
     if (!request.tableNumber) {
       throw new Error("Table number is required");
@@ -44,7 +49,7 @@ export class TabService {
     }
     return toResponse(updated);
   }
-
+  // deletes a table
   async delete(id: number): Promise<void> {
     await repo.delete(id);
   }

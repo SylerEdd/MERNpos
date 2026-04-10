@@ -5,6 +5,7 @@ import { IUser } from "../entities/User";
 
 const repo = new UserRepository();
 
+// maps the user entity for response (doesnt include password to prevent leaking)
 function toResponse(entity: IUser): UserResponse {
   const roles = Array.isArray(entity.roles) ? entity.roles : [];
   return {
@@ -25,21 +26,25 @@ function toResponse(entity: IUser): UserResponse {
 }
 
 export class UserService {
+  // returns all users
   async getAll(): Promise<UserResponse[]> {
     const users = await repo.findAll();
     return users.map(toResponse);
   }
 
+  //returns user by id
   async getById(id: number): Promise<UserResponse | null> {
     const user = await repo.findById(id);
     return user ? toResponse(user) : null;
   }
 
+  // returns user by username
   async getByUsername(username: string): Promise<UserResponse | null> {
     const user = await repo.findByUsername(username);
     return user ? toResponse(user) : null;
   }
 
+  //creates the user
   async create(request: CreateUserRequest): Promise<UserResponse> {
     if (
       !request.fullName ||
@@ -68,6 +73,7 @@ export class UserService {
     return toResponse(updated);
   }
 
+  // deletes user
   async delete(id: number): Promise<void> {
     await repo.delete(id);
   }

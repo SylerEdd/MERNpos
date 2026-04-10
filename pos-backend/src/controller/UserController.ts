@@ -4,11 +4,13 @@ import { UserService } from "../services/UserService";
 const service = new UserService();
 
 export class UserController {
+  // request from the database and return all users
   async getAll(req: Request, res: Response): Promise<void> {
     const users = await service.getAll();
     res.json(users);
   }
 
+  // request from the database and return user with that ID
   async getById(req: Request<{ id: string }>, res: Response): Promise<void> {
     const id = Number(req.params.id);
     if (!Number.isFinite(id)) {
@@ -22,7 +24,7 @@ export class UserController {
     }
     res.json(user);
   }
-
+  // request from the database and return with that username
   async getByUsername(
     req: Request<{ username: string }>,
     res: Response,
@@ -34,7 +36,7 @@ export class UserController {
     }
     res.json(user);
   }
-
+  // create new user
   async create(req: Request, res: Response): Promise<void> {
     try {
       const created = await service.create(req.body);
@@ -43,7 +45,7 @@ export class UserController {
       res.status(400).json({ message: err.message ?? "Invalid data" });
     }
   }
-
+  // update the user
   async patch(req: Request<{ id: string }>, res: Response): Promise<void> {
     const id = Number(req.params.id);
     if (!Number.isFinite(id)) {
@@ -61,7 +63,7 @@ export class UserController {
       }
     }
   }
-
+  // delete user
   async delete(req: Request<{ id: string }>, res: Response): Promise<void> {
     const id = Number(req.params.id);
     if (!Number.isFinite(id)) {
