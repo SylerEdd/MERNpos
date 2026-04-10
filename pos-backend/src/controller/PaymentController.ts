@@ -4,6 +4,7 @@ import { OrderService } from "../services/OrderService";
 const service = new OrderService();
 
 export class PaymentController {
+  // POST /api/
   async pay(req: Request, res: Response): Promise<void> {
     try {
       const orderId = Number(req.params.id);

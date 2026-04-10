@@ -1,4 +1,4 @@
-### Create user
+### Create user (Waiter)
 POST http://localhost:3000/api/users
 Content-Type: application/json
 
@@ -10,12 +10,18 @@ Content-Type: application/json
   "roles": [1]
 }
 
+### Create user (Manager)
+POST http://localhost:3000/api/users
+Content-Type: application/json
 
- # "fullName": "Eddie",
- # "username": "daboss",
- # "email": "eddiedaboss@pos.com",
- # "password": "password123",
- # "roles": [2]
+{
+  "fullName": "Eddie",
+  "username": "daboss",
+  "email": "eddiedaboss@pos.com",
+  "password": "password123",
+  "roles": [2]
+}
+
 
 
 ### Get all users

@@ -6,6 +6,14 @@ Content-Type: application/json
   "name": "BARTENDER"
 }
 
+### Create role
+POST http://localhost:3000/api/roles
+Content-Type: application/json
+
+{
+  "name": "MANAGER"
+}
+
 ### Get all roles
 GET http://localhost:3000/api/roles
 
