@@ -23,7 +23,7 @@ Content-Type: application/json
 GET http://localhost:3000/api/orders/3
 
 ### Add item to order
-POST http://localhost:3000/api/orders/3/items
+POST http://localhost:3000/api/orders/1/items
 Content-Type: application/json
 
 {
@@ -48,7 +48,7 @@ Content-Type: application/json
 DELETE http://localhost:3000/api/orders/1
 
 ### Pay order manager logged in
-POST http://localhost:3000/api/orders/3/pay
+POST http://localhost:3000/api/orders/1/pay
 Content-Type: application/json
 
 {
@@ -57,10 +57,10 @@ Content-Type: application/json
 }
 
 ### Pay order as waiter logged in
-POST http://localhost:3000/api/orders/3/pay
+POST http://localhost:3000/api/orders/1/pay
 Content-Type: application/json
 
 {
-  "amount": 10.50,
+  "amount": 57,
   "paymentMethod": "CARD"
 }
