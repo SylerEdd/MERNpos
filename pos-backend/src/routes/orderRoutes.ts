@@ -45,6 +45,18 @@ orderRouter.post(
   (req, res) => paymentController.pay(req, res),
 );
 
+// POST /orders/:id/close
+orderRouter.post(
+  "/:id/close",
+  authenticate,
+  authorize("MANAGER", "SUPERVISOR"),
+  (req: Request<{ id: string }>, res) => {
+    // Set the status to CLOSED and call updateStatus
+    req.body.status = "CLOSED";
+    controller.updateStatus(req, res);
+  },
+);
+
 // DELETE /orders/:id
 orderRouter.delete(
   "/:id",
