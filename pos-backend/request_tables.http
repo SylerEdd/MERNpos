@@ -3,7 +3,7 @@ POST http://localhost:3000/api/tabs
 Content-Type: application/json
 
 {
-  "tableNumber": "221A",
+  "tableNumber": "TABLE 5",
   "tableStatus": "open"
 }
 
@@ -12,10 +12,16 @@ GET http://localhost:3000/api/tabs
 Content-Type: application/json
 
 ### Get a specific table
-GET http://localhost:3000/api/tabs/0
+GET http://localhost:3000/api/tabs/1
 
 ### Update a table
 PUT http://localhost:3000/api/tabs/1
+Content-Type: application/json
+
+{
+  "tableNumber": "TABLE 1"
+}
+
 
 ### Delete a table
-DELETE http://localhost:3000/api/tabs/0
+DELETE http://localhost:3000/api/tabs/2

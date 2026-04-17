@@ -31,6 +31,16 @@ export class OrderRepository {
     return order.save();
   }
 
+  // update order fields such as tabId and userId
+  async update(
+    id: number,
+    data: Partial<CreateOrderRequest>,
+  ): Promise<IOrder | null> {
+    return Order.findOneAndUpdate({ id }, data, {
+      returnDocument: "after",
+    }).exec();
+  }
+
   // update the order status
   async updateStatus(id: number, status: OrderStatus): Promise<IOrder | null> {
     const update: any = { status };

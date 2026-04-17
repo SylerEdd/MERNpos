@@ -3,6 +3,7 @@ import { OrderRepository } from "../repositories/OrderRepository";
 import { MenuItemRepository } from "../repositories/menuItemRepository";
 import { TabRepository } from "../repositories/TabRepository";
 import { CreateOrderRequest } from "../dto/order/CreateOrderRequest";
+import { UpdateOrderRequest } from "../dto/order/UpdateOrderRequest";
 import { OrderResponse } from "../dto/order/OrderResponse";
 import { AddOrderItemRequest } from "../dto/orderItem/AddOrderItemRequest";
 import { OrderItemResponse } from "../dto/orderItem/OrderItemResponse";
@@ -153,6 +154,47 @@ export class OrderService {
       tableStatus: TableStatus.OCCUPIED,
     });
     return this.buildResponse(created);
+  }
+
+  // update an open order's tabId/userId
+  async update(
+    id: number,
+    request: UpdateOrderRequest,
+  ): Promise<OrderResponse> {
+    const order = await orderRepository.findById(id);
+    if (!order) {
+      throw new Error("Order not found");
+    }
+    if (order.status !== OrderStatus.OPEN) {
+      throw new Error("Only open orders can be updated");
+    }
+
+    const updates: Partial<CreateOrderRequest> = {};
+
+    if (request.tabId !== undefined) {
+      const tab = await tabRepository.findById(request.tabId);
+      if (!tab) {
+        throw new Error("Tab not found");
+      }
+
+      const existingOpen = await orderRepository.findOpenByTabId(request.tabId);
+      if (existingOpen && existingOpen.id !== id) {
+        throw new Error("An open order already exists for this tab");
+      }
+
+      updates.tabId = request.tabId;
+    }
+
+    if (request.userId !== undefined) {
+      updates.userId = request.userId;
+    }
+
+    if (Object.keys(updates).length === 0) {
+      throw new Error("tabId or userId is required to update the order");
+    }
+
+    const updated = await orderRepository.update(id, updates);
+    return this.buildResponse(updated!);
   }
 
   // adds items to the OPEN order

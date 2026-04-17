@@ -21,13 +21,13 @@ Content-Type: application/json
 ### Who am I (get current authenticated user info)
 GET http://localhost:3000/api/auth/me
 
-# ### Try to close order as Waiter (will get 403)
-# POST http://localhost:3000/api/orders/2/close
-# Content-Type: application/json
+### Try to close order as Waiter (will get 403)
+POST http://localhost:3000/api/orders/2/close
+Content-Type: application/json
 
-# {
-#   "status": "CLOSED"
-# }
+{
+  "status": "CLOSED"
+}
 
 ### Logout
 POST http://localhost:3000/api/auth/logout

@@ -61,6 +61,26 @@ export class OrderController {
     }
   }
 
+  // PUT /api/orders/:id
+  async update(req: Request<{ id: string }>, res: Response): Promise<void> {
+    const id = Number(req.params.id);
+    if (!Number.isFinite(id)) {
+      res.status(400).json({ message: "Invalid order id" });
+      return;
+    }
+
+    try {
+      const updated = await service.update(id, req.body);
+      res.json(updated);
+    } catch (error: any) {
+      if (error.message === "Order not found") {
+        res.status(404).json({ message: error.message });
+      } else {
+        res.status(400).json({ message: error.message ?? "Invalid data" });
+      }
+    }
+  }
+
   // POST /api/orders/:id/items
   async addItem(req: Request<{ id: string }>, res: Response): Promise<void> {
     const id = Number(req.params.id);

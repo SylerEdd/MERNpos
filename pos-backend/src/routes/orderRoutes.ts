@@ -22,6 +22,13 @@ orderRouter.get(
 
 orderRouter.post("/", authenticate, (req, res) => controller.create(req, res));
 
+// PATCH /orders/:id
+orderRouter.patch(
+  "/:id",
+  authenticate,
+  (req: Request<{ id: string }>, res) => controller.update(req, res),
+);
+
 // POST /orders/:id/items
 orderRouter.post(
   "/:id/items",
