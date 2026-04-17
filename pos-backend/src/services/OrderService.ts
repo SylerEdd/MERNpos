@@ -112,7 +112,23 @@ export class OrderService {
     return order ? this.buildResponse(order) : null;
   }
 
-  // creates new order on a tab
+  // returns all items in an order
+  async getItems(id: number): Promise<OrderItemResponse[]> {
+    const order = await orderRepository.findById(id);
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    const items = await orderItemRepository.findByOrderId(id);
+    const allMenuItems = await menuItemRepository.findAll();
+    const menuMap = new Map(allMenuItems.map((m) => [m.id, m.name]));
+
+    return items.map((item) =>
+      toItemResponse(item, menuMap.get(item.menuItemId) ?? "Unknown Item"),
+    );
+  }
+
+  // creates a new order, also changes the tab status to OCCUPIED
   async create(request: CreateOrderRequest): Promise<OrderResponse> {
     if (!request.tabId || !request.userId) {
       throw new Error("tabId and userId are required");
@@ -197,6 +213,43 @@ export class OrderService {
     return this.buildResponse(updated!);
   }
 
+  // updates an item in the open order
+  async updateItem(
+    orderId: number,
+    itemId: number,
+    request: AddOrderItemRequest,
+  ): Promise<OrderResponse> {
+    const order = await orderRepository.findById(orderId);
+    if (!order) {
+      throw new Error("Order not found");
+    }
+    if (order.status !== OrderStatus.OPEN) {
+      throw new Error("Cannot update items in a closed order");
+    }
+
+    const item = await orderItemRepository.findById(itemId);
+    if (!item) {
+      throw new Error("Order item not found");
+    }
+
+    const menuItem = await menuItemRepository.findById(request.menuItemId);
+    if (!menuItem) {
+      throw new Error("Menu item not found");
+    }
+
+    await orderItemRepository.update(itemId, {
+      menuItemId: request.menuItemId,
+      quantity: request.quantity,
+      unitPrice: menuItem.price,
+    });
+
+    // Recalculate total after updating item
+    await this.recalculateTotal(orderId);
+
+    const updated = await orderRepository.findById(orderId);
+    return this.buildResponse(updated!);
+  }
+
   // changes the status of the open order
   async updateStatus(id: number, status: OrderStatus): Promise<OrderResponse> {
     const order = await orderRepository.findById(id);
@@ -251,6 +304,26 @@ export class OrderService {
 
     const updated = await orderRepository.findById(orderId);
     return this.buildResponse(updated!);
+  }
+
+  //delete order and all its items, also frees up the table
+  async delete(id: number): Promise<void> {
+    const order = await orderRepository.findById(id);
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    // Delete all order items
+    const items = await orderItemRepository.findByOrderId(id);
+    await Promise.all(items.map((item) => orderItemRepository.delete(item.id)));
+
+    // Delete the order
+    await orderRepository.delete(id);
+
+    // Free up the table
+    await tabRepository.update(order.tabId, {
+      tableStatus: TableStatus.FREE,
+    });
   }
 
   //sums all order items and updates the order's totalAmount

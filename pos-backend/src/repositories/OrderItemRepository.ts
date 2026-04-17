@@ -34,6 +34,35 @@ export class OrderItemRepository {
     return item.save();
   }
 
+  // update the orderitem
+  async update(
+    id: number,
+    data: Partial<AddOrderItemRequest> & { unitPrice?: number },
+  ): Promise<IOrderItem | null> {
+    const update: any = {};
+    if (data.menuItemId !== undefined) {
+      update.menuItemId = data.menuItemId;
+    }
+    if (data.quantity !== undefined) {
+      update.quantity = data.quantity;
+    }
+    // in case if the customer gets a discount or get a free item
+    if (data.unitPrice !== undefined) {
+      update.unitPrice = data.unitPrice;
+    }
+    if (update.quantity !== undefined || update.unitPrice !== undefined) {
+      const item = await this.findById(id);
+      if (!item) {
+        throw new Error("Order item not found");
+      }
+      update.totalPrice = update.quantity * update.unitPrice;
+    }
+
+    return OrderItem.findOneAndUpdate({ id }, update, {
+      returnDocument: "after",
+    }).exec();
+  }
+
   //deleting the orderitem
   async delete(id: number): Promise<void> {
     await OrderItem.findOneAndDelete({ id });

@@ -13,6 +13,13 @@ orderRouter.get("/:id", authenticate, (req: Request<{ id: string }>, res) =>
   controller.getById(req, res),
 );
 
+// GET /orders/:id/items
+orderRouter.get(
+  "/:id/items",
+  authenticate,
+  (req: Request<{ id: string }>, res) => controller.getItems(req, res),
+);
+
 orderRouter.post("/", authenticate, (req, res) => controller.create(req, res));
 
 // POST /orders/:id/items
@@ -20,6 +27,14 @@ orderRouter.post(
   "/:id/items",
   authenticate,
   (req: Request<{ id: string }>, res) => controller.addItem(req, res),
+);
+
+// PUT /orders/:id/items/:itemId
+orderRouter.put(
+  "/:id/items/:itemId",
+  authenticate,
+  (req: Request<{ id: string; itemId: string }>, res) =>
+    controller.updateItem(req, res),
 );
 
 // POST /orders/:id/pay
@@ -30,10 +45,18 @@ orderRouter.post(
   (req, res) => paymentController.pay(req, res),
 );
 
+// DELETE /orders/:id
+orderRouter.delete(
+  "/:id",
+  authenticate,
+  authorize("MANAGER", "SUPERVISOR"),
+  (req: Request<{ id: string }>, res) => controller.delete(req, res),
+);
+
+// DELETE /orders/:id/items/:itemId
 orderRouter.delete(
   "/:id/items/:itemId",
   authenticate,
-  authorize("MANAGER", "SUPERVISOR"),
   (req: Request<{ id: string; itemId: string }>, res) =>
     controller.removeItem(req, res),
 );

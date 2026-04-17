@@ -48,4 +48,9 @@ export class OrderRepository {
   async updateTotal(id: number, totalAmount: number): Promise<void> {
     await Order.findOneAndUpdate({ id }, { totalAmount }).exec();
   }
+
+  // delete the order
+  async delete(id: number): Promise<void> {
+    await Order.deleteOne({ id }).exec();
+  }
 }

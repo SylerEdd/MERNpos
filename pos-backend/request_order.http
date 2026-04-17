@@ -3,7 +3,7 @@ POST http://localhost:3000/api/orders
 Content-Type: application/json
 
 {
-  "tabId": 1,
+  "tabId": 2,
   "userId": 1
 }
 
@@ -20,10 +20,10 @@ Content-Type: application/json
 }
 
 ### Get order by id
-GET http://localhost:3000/api/orders/3
+GET http://localhost:3000/api/orders/2
 
 ### Add item to order
-POST http://localhost:3000/api/orders/1/items
+POST http://localhost:3000/api/orders/3/items
 Content-Type: application/json
 
 {
@@ -32,23 +32,27 @@ Content-Type: application/json
 }
 
 ### Get all items in order
-GET http://localhost:3000/api/orders/1/items
+GET http://localhost:3000/api/orders/2/items
 
 ### Update item in order
-PUT http://localhost:3000/api/orders/1/items/1
+PUT http://localhost:3000/api/orders/2/items/1
 Content-Type: application/json
 
 {
-  "menuItemId": 2,
+  "menuItemId": 1,
   "quantity": 3
 }
 
 
-### Delete role by id
+### Delete order
 DELETE http://localhost:3000/api/orders/1
 
+### Delete item from order
+DELETE http://localhost:3000/api/orders/2/items/2
+
+
 ### Pay order manager logged in
-POST http://localhost:3000/api/orders/1/pay
+POST http://localhost:3000/api/orders/3/pay
 Content-Type: application/json
 
 {
