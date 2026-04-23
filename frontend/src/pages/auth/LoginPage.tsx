@@ -2,6 +2,7 @@ import { loginUser, quickLogin } from "../../api/authApi";
 import pos_sys_image from "../../assets/pos_sys_image.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { User, Lock } from "lucide-react";
 
 interface SavedUser {
   id: number;
@@ -128,50 +129,58 @@ export function LoginPage() {
               <div>
                 <label
                   htmlFor="username"
-                  className="block text-2xl font-medium text-gray-700"
+                  className="ml-4 block text-2xl font-medium text-gray-700 mt-8 mb-4"
                 >
                   Username
                 </label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={form.username}
-                  onChange={handleChange}
-                  className="mt-1 text-2xl block w-full px-7 py-5 border border-dark rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 cursor-pointer hover:ring-2 hover:ring-blue-500"
-                  placeholder="Enter your username"
-                  required
-                />
+                <div className="ml-4 mt-1 flex items-center gap-3">
+                  <User size={48} className="text-gray-800 shrink-0" />
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={form.username}
+                    onChange={handleChange}
+                    className="text-2xl block w-125 px-7 py-4 pb-5 border border-dark rounded-md shadow-sm focus:outline-2 focus:outline-offset-2 ring-2 focus:ring-dark"
+                    placeholder="Enter your username"
+                    required
+                  />
+                </div>
                 {errors.username && (
-                  <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+                  <p className="text-red-500 text-lg mt-1">{errors.username}</p>
                 )}
                 <label
                   htmlFor="password"
-                  className="block text-2xl font-medium text-gray-700 mt-4"
+                  className="ml-4 block text-2xl font-medium text-gray-700 mt-4 mb-4"
                 >
                   Password
                 </label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={form.password}
-                  onChange={handleChange}
-                  className="mt-1 text-2xl block w-full px-7 py-5 border border-dark rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 cursor-pointer hover:ring-2 hover:ring-blue-500"
-                  placeholder="Enter your password"
-                  required
-                />
+                <div className="ml-4 mt-1 flex items-center gap-3">
+                  <Lock size={48} className="text-dark shrink-0" />
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    className="mt-1 text-2xl block w-125 px-7 py-5 border border-dark rounded-md shadow-sm focus:outline-2 focus:outline-offset-2 ring-2 focus:border-dark"
+                    placeholder="Enter your password"
+                    required
+                  />
+                </div>
                 {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+                  <p className="text-red-500 text-lg mt-1">{errors.password}</p>
                 )}
               </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="mt-7 w-full py-5 px-7 text-2xl rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                {loading ? "Signing In..." : "Sign In"}
-              </button>
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="mt-7 w-115 py-5 px-7 text-2xl rounded-md bg-[#0C2B4E] text-white font-semibold hover:bg-[#0a2340] focus:outline-none focus:ring-2 focus:ring-[#0C2B4E] focus:ring-offset-2"
+                >
+                  {loading ? "Signing In..." : "Sign In"}
+                </button>
+              </div>
             </form>
           </div>
           <div className="w-full max-w-2xl px-8 py-5 bg-white rounded-4xl shadow-lg">
