@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { UserRepository } from "../repositories/UserRepository";
 import { LoginRequest } from "../dto/auth/LoginRequest";
 import { LoginResponse } from "../dto/auth/LoginResponse";
+import { UserResponse } from "../dto/user/UserResponse";
 
 const userRepository = new UserRepository();
 
@@ -52,6 +53,33 @@ export class AuthService {
       },
       // these are stored in the session by the controller
       userId: user.id,
+      username: user.username,
+      fullName: user.fullName,
+      roles: roleNames,
+    };
+  }
+  async quickLogin(
+    userId: number,
+  ): Promise<{
+    id: number;
+    username: string;
+    fullName: string;
+    roles: string[];
+  }> {
+    const user = await userRepository.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const roleNames = Array.isArray(user.roles)
+      ? user.roles.map((role: any) =>
+          typeof role === "object" ? role.name : String(role),
+        )
+      : [];
+
+    return {
+      id: user.id,
       username: user.username,
       fullName: user.fullName,
       roles: roleNames,

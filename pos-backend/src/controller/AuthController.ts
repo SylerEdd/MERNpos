@@ -52,4 +52,29 @@ export class AuthController {
       roles: req.session.roles,
     });
   }
+
+  //quick login method for quick login on frontend
+  // POST /api/auth/quick-login
+  async quickLogin(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.body;
+
+      if (!userId) {
+        res.status(400).json({ message: "userId is required" });
+        return;
+      }
+
+      const user = await service.quickLogin(Number(userId));
+
+      // Creating the session like normal login
+      req.session.userId = user.id;
+      req.session.username = user.username;
+      req.session.fullName = user.fullName;
+      req.session.roles = user.roles;
+
+      res.status(200).json(user);
+    } catch (err: any) {
+      res.status(401).json({ message: err.message ?? "Quick login failed" });
+    }
+  }
 }
