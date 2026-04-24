@@ -3,6 +3,7 @@ import pos_sys_image from "../../assets/pos_sys_image.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Lock } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
 interface SavedUser {
   id: number;
@@ -12,7 +13,7 @@ interface SavedUser {
 
 export function LoginPage() {
   const navigate = useNavigate();
-
+  const { setUser } = useAuth();
   const [form, setForm] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -61,6 +62,14 @@ export function LoginPage() {
       const res = await loginUser(form.username, form.password);
       const user = res.data.user;
 
+      // it updates the auth context with the logged in user info
+      setUser({
+        id: user.id,
+        username: user.username,
+        fullName: user.fullName,
+        roles: user.roles,
+      });
+
       // Save user to localStorage for quick login
       const stored = localStorage.getItem("savedUsers");
       const existing: SavedUser[] = stored ? JSON.parse(stored) : [];
@@ -89,10 +98,16 @@ export function LoginPage() {
 
   const handleQuickLogin = async (userId: number) => {
     try {
-      await quickLogin(userId);
+      const res = await quickLogin(userId);
+      setUser({
+        id: res.data.id,
+        username: res.data.username,
+        fullName: res.data.fullName,
+        roles: res.data.roles,
+      });
       navigate("/dashboard");
     } catch (err) {
-      console.error("Quick login failed");
+      console.log(err);
     }
   };
 
