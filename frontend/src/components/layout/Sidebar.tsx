@@ -37,7 +37,7 @@ export function Sidebar() {
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
-              `flex flex-col items-center gap-1 py-3 px-2 rounded-xl text-xs font-medium transition-colors ${isActive ? "bg-[0C2B4E] text-white" : "text-gray-500 hover:bg-gray-100 hover:text-gray-800"}`
+              `flex flex-col items-center gap-1 py-3 px-2 rounded-xl text-xs font-medium transition-colors ${isActive ? "bg-[#0C2B4E] text-white" : "text-gray-500 hover:bg-gray-100 hover:text-gray-800"}`
             }
           >
             <LayoutDashboard size={20} />

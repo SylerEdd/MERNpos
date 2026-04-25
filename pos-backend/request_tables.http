@@ -3,7 +3,7 @@ POST http://localhost:3000/api/tabs
 Content-Type: application/json
 
 {
-  "tableNumber": "TABLE 3",
+  "tableNumber": "TABLE 5",
   "tableStatus": "open"
 }
 
@@ -25,3 +25,12 @@ Content-Type: application/json
 
 ### Delete a table
 DELETE http://localhost:3000/api/tabs/3
+
+
+### Change the table status
+PATCH http://localhost:3000/api/tabs/1/status
+Content-Type: application/json
+
+{
+  "tableStatus": "free"
+}

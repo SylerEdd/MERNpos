@@ -37,4 +37,13 @@ export class TabRepository {
   async delete(id: number): Promise<void> {
     await Tab.findOneAndDelete({ id }).exec();
   }
+
+  // updating only the table status
+  async updateStatus(id: number, tableStatus: string): Promise<ITab | null> {
+    return Tab.findOneAndUpdate(
+      { id },
+      { tableStatus },
+      { returnDocument: "after" },
+    ).exec();
+  }
 }

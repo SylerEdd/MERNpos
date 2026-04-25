@@ -61,4 +61,22 @@ export class TabController {
     await service.delete(id);
     res.status(204).send();
   }
+
+  // update table status
+  async updateStatus(
+    req: Request<{ id: string }>,
+    res: Response,
+  ): Promise<void> {
+    const id = Number(req.params.id);
+    if (!Number.isFinite(id)) {
+      res.status(400).json({ error: "Invalid tab id" });
+      return;
+    }
+    try {
+      const updated = await service.updateStatus(id, req.body.tableStatus);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ message: err.message ?? "Invalid data" });
+    }
+  }
 }

@@ -13,7 +13,7 @@ interface SavedUser {
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { setUser, user, isLoading } = useAuth();
   const [form, setForm] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -27,6 +27,13 @@ export function LoginPage() {
       setSavedUsers(JSON.parse(stored));
     }
   }, []);
+
+  // redirect to dashboard if already logged in
+  useEffect(() => {
+    if (!isLoading && user) {
+      navigate("/dashboard");
+    }
+  }, [user, isLoading]);
 
   //hanlders
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

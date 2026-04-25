@@ -15,7 +15,7 @@ const tabSchema = new Schema<ITab>(
     tableStatus: {
       type: String,
       enum: Object.values(TableStatus),
-      default: TableStatus.OPEN,
+      default: TableStatus.FREE,
     },
   },
   { timestamps: true },

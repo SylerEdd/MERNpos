@@ -53,4 +53,17 @@ export class TabService {
   async delete(id: number): Promise<void> {
     await repo.delete(id);
   }
+
+  // update the table status
+  async updateStatus(
+    id: number,
+    tableStatus: TableStatus,
+  ): Promise<TabResponse> {
+    if (!Object.values(TableStatus).includes(tableStatus)) {
+      throw new Error("Invalid table status");
+    }
+    const updated = await repo.updateStatus(id, tableStatus);
+    if (!updated) throw new Error("Tab not found");
+    return toResponse(updated);
+  }
 }
