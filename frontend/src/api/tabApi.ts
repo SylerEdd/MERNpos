@@ -14,3 +14,5 @@ export const createTab = (tableNumber: string) =>
 
 export const updateTabStatus = (id: number, tableStatus: string) =>
   api.patch(`/tabs/${id}/status`, { tableStatus });
+
+export const deleteTabById = (id: number) => api.delete(`/tabs/${id}`);
