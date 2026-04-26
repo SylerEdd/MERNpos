@@ -2,6 +2,9 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { DashboardPage } from "./pages/dashboard/DashboardPage";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import { OrderPage } from "./pages/order/OrderPage";
+import { ManagePage } from "./pages/manage/ManagePage";
+import { ReportsPage } from "./pages/reports/ReportsPage";
 
 export default function App() {
   return (
@@ -13,6 +16,30 @@ export default function App() {
         element={
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/order"
+        element={
+          <ProtectedRoute>
+            <OrderPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/manage"
+        element={
+          <ProtectedRoute>
+            <ManagePage />
+          </ProtectedRoute>
+        }
+      />      
+      <Route
+        path="/reports"
+        element={
+          <ProtectedRoute>
+            <ReportsPage />
           </ProtectedRoute>
         }
       />
