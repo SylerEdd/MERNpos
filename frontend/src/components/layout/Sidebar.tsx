@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 export function Sidebar() {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -53,26 +53,28 @@ export function Sidebar() {
             <ClipboardList size={20} />
             Order
           </NavLink>
-
-          <NavLink
-            to="/manage"
-            className={({ isActive }) =>
-              `flex flex-col items-center gap-1 py-3 px-2 rounded-xl text-xs font-medium transition-colors ${isActive ? "bg-[#0C2B4E] text-white" : "text-gray-500 hover:bg-gray-100 hover:text-gray-800"}`
-            }
-          >
-            <Wrench size={20} />
-            Manage
-          </NavLink>
-
-          <NavLink
-            to="/reports"
-            className={({ isActive }) =>
-              `flex flex-col items-center gap-1 py-3 px-2 rounded-xl text-xs font-medium transition-colors ${isActive ? "bg-[#0C2B4E] text-white" : "text-gray-500 hover:bg-gray-100 hover:text-gray-800"}`
-            }
-          >
-            <BarChart2 size={20} />
-            Reports
-          </NavLink>
+          {user?.roles.includes("MANAGER") && (
+            <NavLink
+              to="/manage"
+              className={({ isActive }) =>
+                `flex flex-col items-center gap-1 py-3 px-2 rounded-xl text-xs font-medium transition-colors ${isActive ? "bg-[#0C2B4E] text-white" : "text-gray-500 hover:bg-gray-100 hover:text-gray-800"}`
+              }
+            >
+              <Wrench size={20} />
+              Manage
+            </NavLink>
+          )}
+          {user?.roles.includes("MANAGER") && (
+            <NavLink
+              to="/reports"
+              className={({ isActive }) =>
+                `flex flex-col items-center gap-1 py-3 px-2 rounded-xl text-xs font-medium transition-colors ${isActive ? "bg-[#0C2B4E] text-white" : "text-gray-500 hover:bg-gray-100 hover:text-gray-800"}`
+              }
+            >
+              <BarChart2 size={20} />
+              Reports
+            </NavLink>
+          )}
         </nav>
       </div>
 

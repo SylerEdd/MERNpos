@@ -30,15 +30,15 @@ export default function App() {
       <Route
         path="/manage"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRole="MANAGER">
             <ManagePage />
           </ProtectedRoute>
         }
-      />      
+      />
       <Route
         path="/reports"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRole="MANAGER">
             <ReportsPage />
           </ProtectedRoute>
         }
