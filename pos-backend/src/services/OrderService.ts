@@ -292,6 +292,12 @@ export class OrderService {
     return this.buildResponse(updated!);
   }
 
+  // returns items by its tabId
+  async getByTabId(tabId: number): Promise<OrderResponse[]> {
+    const orders = await orderRepository.findByTabId(tabId);
+    return Promise.all(orders.map((order) => this.buildResponse(order)));
+  }
+
   // changes the status of the open order
   async updateStatus(id: number, status: OrderStatus): Promise<OrderResponse> {
     const order = await orderRepository.findById(id);

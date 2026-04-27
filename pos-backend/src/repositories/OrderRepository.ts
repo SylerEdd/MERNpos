@@ -12,6 +12,11 @@ export class OrderRepository {
     return Order.findOne({ id }).exec();
   }
 
+  // find by tab ID
+  async findByTabId(tabId: number): Promise<IOrder[]> {
+    return Order.find({ tabId }).sort({ id: 1 }).exec();
+  }
+
   // return orders by tabId
   async findOpenByTabId(tabId: number): Promise<IOrder | null> {
     return Order.findOne({

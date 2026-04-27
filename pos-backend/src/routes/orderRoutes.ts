@@ -20,13 +20,18 @@ orderRouter.get(
   (req: Request<{ id: string }>, res) => controller.getItems(req, res),
 );
 
+// GET /orders/tab/:tabId
+orderRouter.get(
+  "/tab/:tabId",
+  authenticate,
+  (req: Request<{ tabId: string }>, res) => controller.getByTabId(req, res),
+);
+
 orderRouter.post("/", authenticate, (req, res) => controller.create(req, res));
 
 // PATCH /orders/:id
-orderRouter.patch(
-  "/:id",
-  authenticate,
-  (req: Request<{ id: string }>, res) => controller.update(req, res),
+orderRouter.patch("/:id", authenticate, (req: Request<{ id: string }>, res) =>
+  controller.update(req, res),
 );
 
 // POST /orders/:id/items

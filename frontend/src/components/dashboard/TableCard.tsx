@@ -17,7 +17,7 @@ export function TableCard({
   isSelected,
   onClick,
 }: TableCardProps) {
-  const isOccupied = tableStatus === "open";
+  const isOccupied = tableStatus === "occupied";
 
   const bgColor = isOccupied ? "bg-[#C9A8D5]" : "bg-[#A8D5A2]";
   const ringColor = isSelected ? "ring-4 ring-[#0C2B4E]" : "";

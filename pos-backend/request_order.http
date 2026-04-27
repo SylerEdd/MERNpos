@@ -3,7 +3,7 @@ POST http://localhost:3000/api/orders
 Content-Type: application/json
 
 {
-  "tabId": 1,
+  "tabId": 2,
   "userId": 1
 }
 
@@ -23,7 +23,7 @@ Content-Type: application/json
 
 
 ### Add item to order
-POST http://localhost:3000/api/orders/1/items
+POST http://localhost:3000/api/orders/2/items
 Content-Type: application/json
 
 {

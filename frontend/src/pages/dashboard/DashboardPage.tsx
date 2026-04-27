@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Sidebar } from "../../components/layout/Sidebar";
 import { TopBar } from "../../components/layout/TopBar";
 import { TableGrid } from "../../components/dashboard/TableGrid";
+import { OrderPanel } from "../../components/dashboard/OrderPanel";
 
 interface Tab {
   id: number;
@@ -26,17 +27,7 @@ export function DashboardPage() {
             />
           </div>
 
-          <div className="w-80 bg-white border-l border-gray-100 flex items-center justify-center">
-            {selectedTab ? (
-              <p className="text-gray-500 text-sm">
-                Loading order for Table #{selectedTab.tableNumber}...
-              </p>
-            ) : (
-              <p className="text-gray-400 text-sm text-center px-6">
-                Choose a table to see the order.
-              </p>
-            )}
-          </div>
+          <OrderPanel selectedTab={selectedTab} />
         </div>
       </div>
     </div>

@@ -28,6 +28,21 @@ export class OrderController {
     res.json(order);
   }
 
+  // GET /api/orders/tab/:tabId
+  async getByTabId(
+    req: Request<{ tabId: string }>,
+    res: Response,
+  ): Promise<void> {
+    const tabId = Number(req.params.tabId);
+
+    if (!Number.isFinite(tabId)) {
+      res.status(400).json({ error: "Invalid tab id" });
+      return;
+    }
+    const orders = await service.getByTabId(tabId);
+    res.json(orders);
+  }
+
   // GET /api/orders/:id/items
   async getItems(req: Request<{ id: string }>, res: Response): Promise<void> {
     const id = Number(req.params.id);
