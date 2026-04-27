@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { DashboardPage } from "./pages/dashboard/DashboardPage";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
-import { OrderPage } from "./pages/order/OrderPage";
+import { OrdersPage } from "./pages/orders/OrdersPage";
 import { ManagePage } from "./pages/manage/ManagePage";
 import { ReportsPage } from "./pages/reports/ReportsPage";
 
@@ -23,7 +23,7 @@ export default function App() {
         path="/orders"
         element={
           <ProtectedRoute>
-            <OrderPage />
+            <OrdersPage />
           </ProtectedRoute>
         }
       />
