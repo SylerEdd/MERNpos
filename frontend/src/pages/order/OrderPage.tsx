@@ -6,7 +6,6 @@ import { getAllMenuItems } from "../../api/menuItemApi";
 import { useAuth } from "../../context/AuthContext";
 import { getOrdersByTab } from "../../api/orderApi";
 import axios from "axios";
-import { CalendarSync, Filter, Key } from "lucide-react";
 
 const api = axios.create({ baseURL: "/api", withCredentials: true });
 
@@ -44,10 +43,10 @@ export function OrderPage() {
 
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
-  const [orderId, setOrderId] = useState<number | null>(initialOrderId);
+  const [orderId] = useState<number | null>(initialOrderId);
   const [totalAmount, setTotalAmount] = useState(0);
   const [pendingItems, setPendingItems] = useState<
-    { menuItem: menuItems; quantity: number }[]
+    { menuItem: MenuItem; quantity: number }[]
   >([]);
   const [filter, setFilter] = useState("ALL");
   const [search, setSearch] = useState("");

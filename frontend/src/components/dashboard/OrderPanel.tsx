@@ -130,30 +130,18 @@ export function OrderPanel({ selectedTab }: OrderPanelProps) {
         </span>
       </div>
 
-      <div className="px-6 py-4 flex flex-col gap-2">
+      <div className="px-6 py-4">
         <button
           onClick={() =>
             navigate("/orders", {
               state: { tab: selectedTab, orderId: order.id },
             })
           }
-          className="w-full py-3 rounded-xl text-white font-semibold text-sm transition-colors hover:opacity-90"
+          className="w-full py-4 rounded-xl text-white font-semibold text-base transition-colors hover:opacity-90"
           style={{ background: "#0C2B4E" }}
         >
           Edit Order
         </button>
-        <div className="grid grid-cols-3 gap-2">
-          <button className="py-2 rounded-xl border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-            Cash
-          </button>
-
-          <button className="py-2 rounded-xl border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-            Visa
-          </button>
-          <button className="py-2 rounded-xl border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-            Send
-          </button>
-        </div>
       </div>
     </div>
   );
