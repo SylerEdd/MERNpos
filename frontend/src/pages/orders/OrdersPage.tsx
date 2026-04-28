@@ -3,7 +3,6 @@ import { Sidebar } from "../../components/layout/Sidebar";
 import { TopBar } from "../../components/layout/TopBar";
 
 export function OrdersPage() {
-
   return (
     <div className="flex h-screen w-screen bg-gray-50">
       <Sidebar />
