@@ -6,3 +6,13 @@ const api = axios.create({
 });
 
 export const getAllMenuItems = () => api.get("/menu-items");
+
+export const getMenuItemById = (id: number) => api.get(`/menu-items/${id}`);
+
+export const createMenuItem = (name: string, price: number, section: string) =>
+  api.post("/menu-items", { name, price, section });
+
+export const updateMenuItem = (id: number, data: {name?: string, price?: number}) =>
+  api.patch(`/menu-items/${id}`, data);
+
+export const delteMenuItemById = (id: number) => api.delete(`/menu-items/${id}`)
