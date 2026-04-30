@@ -137,6 +137,14 @@ export function LoginPage() {
     >
       <div className="grid grid-cols-2 place-items-center h-full w-full">
         <div className="m-auto">
+          <h1
+            className="text-white font-bold text-center leading-tight"
+            style={{ fontFamily: "Arial", fontSize: "96px" }}
+          >
+            Welcome to
+            <br />
+            FlowServe
+          </h1>
           <img
             src={pos_sys_image}
             // This image has created by AI

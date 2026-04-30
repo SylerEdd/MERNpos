@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { TableCard } from "./TableCard";
 import { getAllTabs } from "../../api/tabApi";
+import { getAllOrders } from "../../api/orderApi";
 
 interface Tab {
   id: number;
@@ -16,11 +17,25 @@ interface TableGridProps {
 
 export function TableGrid({ selectedTableId, onTableSelect }: TableGridProps) {
   const [tabs, setTabs] = useState<Tab[]>([]);
+  const [orderOpenedAt, setOrderOpenedAt] = useState<Record<number, string>>(
+    {},
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getAllTabs()
-      .then((res) => setTabs(res.data))
+    Promise.all([getAllTabs(), getAllOrders()])
+      .then(([tabsRes, ordersRes]) => {
+        setTabs(tabsRes.data);
+
+        //creating a tabId map for OPEN orders openedAt
+        const map: Record<number, string> = {};
+        ordersRes.data.forEach((order: any) => {
+          if (order.status === "OPEN") {
+            map[order.tabId] = order.openedAt;
+          }
+        });
+        setOrderOpenedAt(map);
+      })
       .catch((err) => console.error("Failed to load tables", err))
       .finally(() => setIsLoading(false));
   }, []);
@@ -64,7 +79,7 @@ export function TableGrid({ selectedTableId, onTableSelect }: TableGridProps) {
             id={tab.id}
             tableNumber={tab.tableNumber}
             tableStatus={tab.tableStatus}
-            openedAt={tab.createdAt}
+            openedAt={orderOpenedAt[tab.id] ?? ""}
             isSelected={selectedTableId === tab.id}
             onClick={() => onTableSelect(tab)}
           />

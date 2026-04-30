@@ -1,5 +1,5 @@
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useOrder } from "../../context/OrderContext";
 
 import { NavLink } from "react-router-dom";
@@ -17,6 +17,7 @@ export function Sidebar() {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
   const { activeTab, activeOrderId } = useOrder();
+  const location = useLocation();
 
   const handleLogout = async () => {
     await logout();

@@ -38,9 +38,9 @@ export function TableCard({
       <p className="text-sm font-bold text-gray-800"> Table #{tableNumber}</p>
 
       {/* Time opened */}
-      <p className="text-xs text-gray-600">
-        {openedAt ? formatTime(openedAt) : "--:--"}
-      </p>
+      {openedAt && (
+        <p className="text-xs text-gray-600">{formatTime(openedAt)}</p>
+      )}
 
       {/* Status*/}
       <div className="flex items-center justify-between">
