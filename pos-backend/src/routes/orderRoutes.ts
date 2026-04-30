@@ -63,6 +63,7 @@ orderRouter.post(
   authenticate,
   authorize("MANAGER", "SUPERVISOR"),
   (req: Request<{ id: string }>, res) => {
+    req.body = req.body ?? {};
     // Set the status to CLOSED and call updateStatus
     req.body.status = "CLOSED";
     controller.updateStatus(req, res);
