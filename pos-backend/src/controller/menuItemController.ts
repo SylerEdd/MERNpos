@@ -33,4 +33,32 @@ export class MenuItemController {
       res.status(400).json({ message: err.message ?? "Invalid data" });
     }
   }
+    //update menu item
+    async update(req: Request<{ id: string }>, res: Response): Promise<void> {
+      const id = Number(req.params.id);
+      if (!Number.isFinite(id)) {
+        res.status(400).json({ error: "Invalid tab id" });
+        return;
+      }
+      try {
+        const updated = await service.update(id, req.body);
+        res.json(updated);
+      } catch (err: any) {
+        if (err.message === "Menu item not found") {
+          res.status(404).json({ message: err.message });
+        } else {
+          res.status(400).json({ message: err.message ?? "Invalid data" });
+        }
+      }
+    }
+    // delete menu item
+    async delete(req: Request<{ id: string }>, res: Response): Promise<void> {
+      const id = Number(req.params.id);
+      if (!Number.isFinite(id)) {
+        res.status(400).json({ error: "Invalid menu item id" });
+        return;
+      }
+      await service.delete(id);
+      res.status(204).send();
+    }
 }
