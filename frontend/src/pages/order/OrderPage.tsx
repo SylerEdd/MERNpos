@@ -4,6 +4,7 @@ import { Sidebar } from "../../components/layout/Sidebar";
 import { TopBar } from "../../components/layout/TopBar";
 import { getAllMenuItems } from "../../api/menuItemApi";
 import { useAuth } from "../../context/AuthContext";
+import { useOrder } from "../../context/OrderContext";
 import { getOrdersByTab } from "../../api/orderApi";
 import axios from "axios";
 
@@ -53,6 +54,7 @@ export function OrderPage() {
   const [showCustom, setShowCustom] = useState(false);
   const [customAmount, setCustomAmount] = useState("");
   const [amountDue, setAmountDue] = useState(0);
+  const { clearActiveOrder } = useOrder();
 
   // load the menu items
   useEffect(() => {
@@ -140,7 +142,10 @@ export function OrderPage() {
                 Edit current order - Table #{tab.tableNumber}
               </h2>
               <button
-                onClick={() => navigate("/dashboard")}
+                onClick={() => {
+                  clearActiveOrder();
+                  navigate("/dashboard");
+                }}
                 className="text-sm text-gray-500 hover:text-gray-800 underline"
               >
                 Back to Dashboard

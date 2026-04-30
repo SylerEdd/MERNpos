@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getOrdersByTab } from "../../api/orderApi";
+import { useOrder } from "../../context/OrderContext";
 
 interface OrderItem {
   id: number;
@@ -33,6 +34,7 @@ export function OrderPanel({ selectedTab }: OrderPanelProps) {
   const [order, setOrder] = useState<Order | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { setActiveOrder } = useOrder();
 
   useEffect(() => {
     if (!selectedTab) {
@@ -80,9 +82,10 @@ export function OrderPanel({ selectedTab }: OrderPanelProps) {
           No open order for Table #{selectedTab.tableNumber}
         </p>
         <button
-          onClick={() =>
-            navigate("/orders", { state: { tab: selectedTab, orderId: null } })
-          }
+          onClick={() => {
+            setActiveOrder(selectedTab!, null);
+            navigate("/orders", { state: { tab: selectedTab, orderId: null } });
+          }}
           className="w-full py-3 rounded-xl text-white font-semibold text-sm"
           style={{ background: "#0C2B4E" }}
         >
@@ -132,11 +135,12 @@ export function OrderPanel({ selectedTab }: OrderPanelProps) {
 
       <div className="px-6 py-4">
         <button
-          onClick={() =>
+          onClick={() => {
+            setActiveOrder(selectedTab!, order.id);
             navigate("/orders", {
               state: { tab: selectedTab, orderId: order.id },
-            })
-          }
+            });
+          }}
           className="w-full py-4 rounded-xl text-white font-semibold text-base transition-colors hover:opacity-90"
           style={{ background: "#0C2B4E" }}
         >
