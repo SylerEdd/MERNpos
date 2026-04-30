@@ -2,6 +2,7 @@ import { MenuItemRepository } from "../repositories/menuItemRepository";
 import { CreateMenuItemRequest } from "../dto/menuItem/CreateMenuItemRequest";
 import { MenuItemResponse } from "../dto/menuItem/MenuItemResponse";
 import { IMenuItem } from "../entities/MenuItem";
+import { UpdateMenuItemRequest } from "../dto/menuItem/UpdateMenuItemRequest";
 
 const repo = new MenuItemRepository();
 
@@ -35,6 +36,21 @@ export class MenuItemService {
     }
     const created = await repo.create(request);
     return toResponse(created);
+  }
+
+  // updates a menu item
+  async update(id: number, request: UpdateMenuItemRequest): Promise<MenuItemResponse> {
+      if (!request.name) {
+        throw new Error("Menu item name is required");
+      }
+      if (!request.price || request.price <= 0) {
+        throw new Error("Price is required and must be bigger than 0");
+      }
+      const updated = await repo.update(id, request);
+      if (!updated) {
+        throw new Error("Menu item not found");
+      }
+      return toResponse(updated);
   }
 
   // delets an menu item
