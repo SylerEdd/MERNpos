@@ -15,4 +15,4 @@ export const createMenuItem = (name: string, price: number, section: string) =>
 export const updateMenuItem = (id: number, data: {name?: string, price?: number}) =>
   api.patch(`/menu-items/${id}`, data);
 
-export const delteMenuItemById = (id: number) => api.delete(`/menu-items/${id}`)
+export const deleteMenuItemById = (id: number) => api.delete(`/menu-items/${id}`)
