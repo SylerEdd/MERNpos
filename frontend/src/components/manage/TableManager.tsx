@@ -9,7 +9,6 @@ interface Tab {
     createdAt: string;
 }
 
-//If needed, i can add an update button as well and then turn the tables as cards similar to the dashboard (but here with a delete and update button)
 export function TableManager() {
     const [tabs, setTabs] = useState<Tab[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -107,13 +106,13 @@ export function TableManager() {
                     onClick={handleAdd}
                     disabled={adding}
                     className="bg-[#0C2B4E] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#0a2340]"
-                    >
+                >
                     {adding ? "Adding..." : "Confirm"}
                 </button>
                 <button
                     onClick={() => setShowForm(false)}
                     className="text-gray-400 text-sm hover:text-gray-600"
-                    >
+                >
                     Cancel
                 </button>
             </div>
