@@ -96,7 +96,7 @@ export function Sidebar() {
           className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl text-xs font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors"
         >
           <Settings size={20} />
-          Settings
+          User Settings
         </NavLink>
 
         <NavLink
