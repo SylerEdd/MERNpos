@@ -1,0 +1,6 @@
+export enum Roles {
+  WAITER = "WAITER",
+  BARTENDER = "BARTENDER",
+  MANAGER = "MANAGER",
+  SUPERVISOR = "SUPERVISOR",
+}
