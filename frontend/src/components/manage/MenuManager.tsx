@@ -208,7 +208,7 @@ export function MenuManager() {
                 className="bg-white rounded-xl p-4 shadow-sm flex items-center justify-between"
             >
                 {editingId === item.id ? (
-                    <>
+                    <div className="flex flex-col gap-2 w-full">
                         <input
                             type="text"
                             value={editName}
@@ -247,7 +247,7 @@ export function MenuManager() {
                                 <X size={16}/>
                             </button>
                         </div>
-                    </>
+                    </div>
                 ) : (
                     <>
                         <span className="font-semibold text-gray-800">{item.name}</span>
