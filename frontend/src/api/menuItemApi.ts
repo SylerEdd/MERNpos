@@ -12,7 +12,10 @@ export const getMenuItemById = (id: number) => api.get(`/menu-items/${id}`);
 export const createMenuItem = (name: string, price: number, section: string) =>
   api.post("/menu-items", { name, price, section });
 
-export const updateMenuItem = (id: number, data: {name?: string, price?: number}) =>
-  api.patch(`/menu-items/${id}`, data);
+export const updateMenuItem = (
+  id: number,
+  data: { name?: string; price?: number },
+) => api.put(`/menu-items/${id}`, data);
 
-export const deleteMenuItemById = (id: number) => api.delete(`/menu-items/${id}`)
+export const deleteMenuItemById = (id: number) =>
+  api.delete(`/menu-items/${id}`);
