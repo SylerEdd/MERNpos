@@ -52,6 +52,14 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/help"
+        element={
+          <ProtectedRoute>
+            <UserSettingsPage />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }
