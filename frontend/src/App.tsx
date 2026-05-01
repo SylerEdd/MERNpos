@@ -5,6 +5,7 @@ import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { OrderPage } from "./pages/order/OrderPage";
 import { ManagePage } from "./pages/manage/ManagePage";
 import { ReportsPage } from "./pages/reports/ReportsPage";
+import { UserSettingsPage } from "./pages/settings/UserSettingsPage";
 
 export default function App() {
   return (
@@ -40,6 +41,14 @@ export default function App() {
         element={
           <ProtectedRoute requiredRole="MANAGER">
             <ReportsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute requiredRole="MANAGER">
+            <UserSettingsPage />
           </ProtectedRoute>
         }
       />
