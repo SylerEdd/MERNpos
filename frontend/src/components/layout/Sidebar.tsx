@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   ClipboardList,
   Settings,
-  HelpCircle,
   LogOut,
   Wrench,
   BarChart2,

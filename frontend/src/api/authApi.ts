@@ -2,7 +2,7 @@ import axios from "axios";
 
 // This file contains all API calls related to authentication, such as login, logout, and fetching the current user.
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: import.meta.env.VITE_API_URL ?? "/api",
   withCredentials: true,
 });
 
