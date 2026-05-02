@@ -1,7 +1,6 @@
 import { Sidebar } from "../../components/layout/Sidebar";
 import { TopBar } from "../../components/layout/TopBar";
-import { UserSettings } from "../../components/settings/UserSettings"
-
+import { UserSettings } from "../../components/settings/UserSettings";
 
 export function UserSettingsPage() {
   return (
