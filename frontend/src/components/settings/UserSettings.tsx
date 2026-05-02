@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  getAllUsers,
-  createUser,
-  updateUser,
-  deleteUserById,
-} from "../../api/userApi";
-import { getAllRoles, createRole, deleteRoleById } from "../../api/roleApi";
+import { getAllUsers, createUser, updateUser } from "../../api/userApi";
+import { getAllRoles, createRole } from "../../api/roleApi";
 import { Plus, Pencil, Check, X } from "lucide-react";
 
 interface User {
@@ -131,15 +126,6 @@ export function UserSettings() {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    try {
-      await deleteUserById(id);
-      fetchUsers();
-    } catch (err) {
-      console.error("Failed to delete user", err);
-    }
-  };
-
   const handleEdit = (user: User) => {
     setEditingId(user.id);
     setEditFullName(user.fullName);
@@ -223,15 +209,6 @@ export function UserSettings() {
       setRoleError("Failed to create role, try again.");
     } finally {
       setAddingRole(false);
-    }
-  };
-
-  const handleDeleteRole = async (id: number) => {
-    try {
-      await deleteRoleById(id);
-      fetchRoles();
-    } catch (err) {
-      console.error("Failed to delete role", err);
     }
   };
 

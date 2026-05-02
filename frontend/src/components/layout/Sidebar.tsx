@@ -99,14 +99,6 @@ export function Sidebar() {
           User Settings
         </NavLink>
 
-        <NavLink
-          to="/help"
-          className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl text-xs font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors"
-        >
-          <HelpCircle size={20} />
-          Help Center
-        </NavLink>
-
         <button
           onClick={handleLogout}
           className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl text-xs font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors"
