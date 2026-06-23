@@ -332,13 +332,17 @@ export class OrderService {
     if (order.status !== OrderStatus.OPEN) {
       throw new Error("Cannot record payment for a closed order");
     }
+    if (!Number.isFinite(request.amount) || request.amount <= 0) {
+      throw new Error("Payment amount must be greater than zero");
+    }
 
     //Calculate total paid so far
     const existingPayments = await paymentRepository.findByOrderId(orderId);
     const alreadyPaid = existingPayments.reduce((sum, p) => sum + p.amount, 0);
 
     const newTotalPaid = alreadyPaid + request.amount;
-    if (newTotalPaid > order.totalAmount) {
+    const paymentDifference = newTotalPaid - order.totalAmount;
+    if (paymentDifference > 0.005) {
       throw new Error("Payment exceeds total amount due");
     }
 
@@ -346,7 +350,7 @@ export class OrderService {
     await paymentRepository.create(orderId, processedByUserId, request);
 
     // If fully paid, close the order
-    if (newTotalPaid === order.totalAmount) {
+    if (Math.abs(paymentDifference) <= 0.005) {
       await this.updateStatus(orderId, OrderStatus.CLOSED);
     }
 
